@@ -28,3 +28,9 @@
         ```jsx
         pip install imutils
         ```
+
+- diffimage.py 파일 실행하기
+
+    ```jsx
+    python diffimage.py
+    ```
