@@ -77,7 +77,7 @@ for i in range(len(boxes)):
         cv2.rectangle(img, (x, y), (x + w, y + h), color, 1)
         cv2.putText(img, label, (x, y + 10), font, 1, color, 1)
 
-cv2.imshow('Objects', img)
+# cv2.imshow('Objects', img)
 
 # Load the two images (city)
 img1 = cv2.imread("images/cow1.jpg")
@@ -91,16 +91,16 @@ gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
 
 # Find the difference between the two images using absdiff
 diff = cv2.absdiff(gray1, gray2)
-cv2.imshow("diff(img1, img2)", diff)
+# cv2.imshow("diff(img1, img2)", diff)
 
 # Apply threshold
 thresh = cv2.threshold(diff, 30, 255, cv2.THRESH_BINARY)[1]  # Adjust the threshold value as needed
-cv2.imshow("Threshold", thresh)
+# cv2.imshow("Threshold", thresh)
 
 # Dilation
 kernel = np.ones((5, 5), np.uint8)
 dilate = cv2.dilate(thresh, kernel, iterations=2)
-cv2.imshow("Dilation", dilate)
+# cv2.imshow("Dilation", dilate)
 
 # Find contours
 contours = cv2.findContours(dilate.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -140,7 +140,7 @@ for (x, y, w, h) in dog_faces:
     cv2.rectangle(img_r, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
 
-cv2.imshow("images/roi_img1.jpg", roi_img1)
+# cv2.imshow("images/roi_img1.jpg", roi_img1)
 cv2.imshow("Dog Face and Eye Detection", img_r)
 
 cv2.imwrite("images/dogface.jpg", img_r)
