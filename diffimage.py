@@ -5,7 +5,7 @@ import numpy as np
 
 # read image
 img = cv2.imread("images/cow1.jpg")
-img = cv2.resize (img, (600,360) )
+img = cv2.resize(img, (600, 360))
 height, width, channel = img.shape
 print('original image shape:', height, width, channel)
 
@@ -37,13 +37,11 @@ class_ids = []
 confidence_scores = []
 boxes = []
 
-for out in outs: # for each detected object
-
-    for detection in out: # for each bounding box
-
-        scores = detection[5:] # scores (confidence) for all classes
-        class_id = np.argmax(scores) # class id with the maximum score (confidence)
-        confidence = scores[class_id] # the maximum score
+for out in outs:  # for each detected object
+    for detection in out:  # for each bounding box
+        scores = detection[5:]  # scores (confidence) for all classes
+        class_id = np.argmax(scores)  # class id with the maximum score (confidence)
+        confidence = scores[class_id]  # the maximum score
 
         if confidence > 0.5:
             # bounding box coordinates
@@ -60,9 +58,9 @@ for out in outs: # for each detected object
             confidence_scores.append(float(confidence))
             class_ids.append(class_id)
 
-print('number of dectected objects =', len(boxes))
+print('number of detected objects =', len(boxes))
 
-# non maximum suppression
+# non-maximum suppression
 indices = cv2.dnn.NMSBoxes(boxes, confidence_scores, 0.5, 0.4)
 print('number of final objects =', len(indices))
 
@@ -82,27 +80,27 @@ for i in range(len(boxes)):
 cv2.imshow('Objects', img)
 
 # Load the two images (city)
-img1 = cv2.imread( "images/cow1.jpg")
-img1 = cv2.resize (img1, (600,360) )
-img2 = cv2.imread ("images/cow2.jpg")
-img2 = cv2.resize (img2, (600,360) )
+img1 = cv2.imread("images/cow1.jpg")
+img1 = cv2.resize(img1, (600, 360))
+img2 = cv2.imread("images/cow2.jpg")
+img2 = cv2.resize(img2, (600, 360))
 
 # Grayscale
-gray1 = cv2.cvtColor (img1, cv2.COLOR_BGR2GRAY)
-gray2 = cv2.cvtColor (img2, cv2.COLOR_BGR2GRAY)
+gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
 
 # Find the difference between the two images using absdiff
 diff = cv2.absdiff(gray1, gray2)
 cv2.imshow("diff(img1, img2)", diff)
 
 # Apply threshold
-thresh = cv2. threshold(diff, 0, 255, cv2.THRESH_BINARY | cv2. THRESH_OTSU)[1]
-cv2.imshow ("Threshold", thresh)
+thresh = cv2.threshold(diff, 30, 255, cv2.THRESH_BINARY)[1]  # Adjust the threshold value as needed
+cv2.imshow("Threshold", thresh)
 
 # Dilation
-kernel = np.ones ((5,5), np.uint8)
+kernel = np.ones((5, 5), np.uint8)
 dilate = cv2.dilate(thresh, kernel, iterations=2)
-cv2.imshow ("Dilation", dilate)
+cv2.imshow("Dilation", dilate)
 
 # Find contours
 contours = cv2.findContours(dilate.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -110,20 +108,45 @@ contours = imutils.grab_contours(contours)
 
 # Loop over each contour
 for contour in contours:
-    if cv2. contourArea (contour) > 100:
+    if cv2.contourArea(contour) > 100:
         # Calculate bounding box
-        x, y, w, h= cv2. boundingRect (contour)
+        x, y, w, h = cv2.boundingRect(contour)
         print(f'detected at {x}, {y}, {w}, {h}')
         # Draw rectangle - bounding box
-        cv2.rectangle(img1, (x,y), (x+w, y+h) , (0,0,255) , 2)
-        roi_img1 = img[y:y + h, x:x + w]
-        cv2.rectangle(img2, (x,y) , (x+w, y+h), (0,0,255), 2)
+        cv2.rectangle(img1, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        roi_img1 = img1[y:y + h, x:x + w]
+        cv2.rectangle(img2, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
 cv2.imwrite("images/roi_img1.jpg", roi_img1)
+
+# Load the Haar Cascade dog face detector
+dog_face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_alt.xml')
+
+# Read an image
+img_r = cv2.imread("images/roi_img1.jpg")
+gray_img_r = cv2.cvtColor(img_r, cv2.COLOR_BGR2GRAY)
+
+# Detect dog faces using Haar Cascade with adjusted parameters
+dog_faces = dog_face_cascade.detectMultiScale(
+    gray_img_r,
+    scaleFactor=1.01,
+    minNeighbors=5,
+    minSize=(20, 20), 
+    maxSize=(100, 100)
+)
+
+# Draw bounding boxes around dog faces for Haar Cascade
+for (x, y, w, h) in dog_faces:
+    cv2.rectangle(img_r, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+
 cv2.imshow("images/roi_img1.jpg", roi_img1)
+cv2.imshow("Dog Face and Eye Detection", img_r)
+
+cv2.imwrite("images/dogface.jpg", img_r)
 
 # Show final images with differences
-x = np. zeros ((360, 10,3), np.uint8)
+x = np.zeros((360, 10, 3), np.uint8)
 result = np.hstack((img1, x, img2))
 cv2.imshow("Differences", result)
 
