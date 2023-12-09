@@ -66,7 +66,7 @@
         - Open a pull request on GitHub merging your changes with the upstream (original) repository. (Pull request 요청)
     - 나의 로컬 프로젝트를 본 프로젝트와 합치고 싶으면, 본 Repository에서 Pull한다.
         - Once the pull request is accepted, you’ll want to pull those changes into your origin (forked repository). 
-        Change to master: `git checkout master` and pull: `git pull upstream master`
+        Change to main: `git checkout main` and pull: `git pull upstream main`
     - 로컬에서 작업하던 Branch가 작업이 끝나 삭제하고 싶다면,
         - Delete your feature branch using the GitHub website or, delete the local branch: 
         (로컬에서 작업하는 branch 삭제)
