@@ -1,4 +1,4 @@
-![스크린샷 2023-12-10 18 51 37](https://github.com/devjaeseung/opensw_team70/assets/100324690/d9190d97-f4e2-4049-b88a-690a74188470)# Find the wrong picture and create the wrong picture with OpenCV
+# Find the wrong picture and create the wrong picture with OpenCV
 
 ---
 
