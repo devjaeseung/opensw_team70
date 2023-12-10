@@ -50,6 +50,7 @@ def makeImage():
 
     # 결과 이미지 표시
     cv2.imshow("result", img)
+    cv2.imwrite("images/result_makeDiffImg.jpg", img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
