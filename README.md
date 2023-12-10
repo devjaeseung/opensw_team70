@@ -13,7 +13,7 @@
 ![스크린샷 2023-12-10 18 51 37](https://github.com/devjaeseung/opensw_team70/assets/100324690/3378a8aa-ef37-4ea5-a4f5-4128a954a096)
 
 
-- VirtualEnv install
+- VirtualEnv install
     
     ```jsx
     python3 -m venv myenv
@@ -45,6 +45,7 @@
         ```
 
 - Installing Library Links
+  
       Pre-trained model weights :  https://pjreddie.com/media/files/yolov3.weights
       Model configuration file (text file) :  https://github.com/pjreddie/darknet/blob/master/cfg/yolov3.cfg
       COCO class names (text file):  https://github.com/pjreddie/darknet/blob/master/data/coco.names
@@ -61,3 +62,11 @@
     ```jsx
     python diffimage.py
     ```
+- Reference Link 
+
+  https://www.youtube.com/watch?v=Ph4lI-LxzDg
+
+  Gachon University OpenSW Lecture - Lab 12, 13, 14
+  
+  
+
